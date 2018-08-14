@@ -100,5 +100,5 @@ drun(){
     IMAGE=$1
     CMD=$2
     docker pull $1
-    docker run -it --rm --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --name `id -un`_`CMD`_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 32` $IMAGE $CMD
+    docker run -it --rm --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --name `id -un`_$CMD_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 32` $IMAGE $CMD
 }

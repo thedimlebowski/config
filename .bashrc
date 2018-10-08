@@ -103,3 +103,7 @@ drun(){
     NAME=`id -un`_${CMD}_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8`
     docker run -it --rm --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --name $NAME $IMAGE $CMD
 }
+
+export WORKON_HOME=~/.venvs
+mkdir -p $WORKON_HOME
+source /usr/local/bin/virtualenvwrapper.sh

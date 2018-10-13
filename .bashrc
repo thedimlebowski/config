@@ -108,7 +108,7 @@ drun(){
     IMAGE=$1
     if [ -z "$3" ]
     then
-	MAXCPU=`systctl hw.ncpu`
+	MAXCPU=`nproc`
 	let MAXCPU=MAXCPU-1
         CPUSET=1-MAXCPU
     else

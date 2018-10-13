@@ -110,7 +110,7 @@ drun(){
     then
 	MAXCPU=`nproc`
 	let MAXCPU=MAXCPU-1
-        CPUSET=1-$MAXCPU
+        CPUSET=0-$MAXCPU
     fi    
     CMD=$2
     docker pull $1

@@ -110,9 +110,7 @@ drun(){
     then
 	MAXCPU=`nproc`
 	let MAXCPU=MAXCPU-1
-        CPUSET=1-MAXCPU
-    else
-        echo "\$var is NOT empty"
+        CPUSET=1-$MAXCPU
     fi    
     CMD=$2
     docker pull $1

@@ -111,7 +111,9 @@ drun(){
 	MAXCPU=`nproc`
 	let MAXCPU=MAXCPU-1
         CPUSET=0-$MAXCPU
-    fi    
+    else
+	CPUSET=$3
+    fi     
     CMD=$2
     docker pull $1
     NAME=`id -un`_${CMD}_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8`

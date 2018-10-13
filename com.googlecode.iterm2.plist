@@ -89,7 +89,7 @@
 	<key>NSWindow Frame SharedPreferences</key>
 	<string>330 298 918 512 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1440 877 0 0 1440 877 </string>
+	<string>1538 -900 1440 877 1538 -900 1440 877 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -743,6 +743,10 @@
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
 	<integer>0</integer>
+	<key>NoSyncSuppressRestartSessionConfirmationAlert</key>
+	<true/>
+	<key>NoSyncSuppressRestartSessionConfirmationAlert_selection</key>
+	<integer>0</integer>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
 	<real>560609650.45978105</real>
 	<key>PointerActions</key>
@@ -789,7 +793,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-10-07T12:54:12Z</date>
+	<date>2018-10-08T12:54:13Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -816,6 +820,8 @@
 	<false/>
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
+	<key>findMode_iTerm</key>
+	<integer>0</integer>
 	<key>iTerm Version</key>
 	<string>3.2.3</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>

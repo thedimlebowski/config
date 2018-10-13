@@ -96,12 +96,30 @@ fi
 alias ipynb='jupyter notebook'
 alias rmpyc='find . -name \*.pyc -delete'
 
+command_exists () {
+    type "$1" &> /dev/null ;
+}
+
+if ! command_exists nproc; then
+    alias nproc='sysctl -n hw.ncpu'
+fi
+
 drun(){
     IMAGE=$1
+    if [ -z "$3" ]
+    then
+	MAXCPU=`systctl hw.ncpu`
+	let MAXCPU=MAXCPU-1
+        CPUSET=1-MAXCPU
+    else
+        echo "\$var is NOT empty"
+    fi    
     CMD=$2
     docker pull $1
     NAME=`id -un`_${CMD}_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8`
-    docker run -it --rm --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --name $NAME $IMAGE $CMD
+    FULLCMD="docker run -it --rm --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --cpuset-cpus $CPUSET --name $NAME $IMAGE $CMD"
+    echo $FULLCMD
+    $FULLCMD
 }
 
 export WORKON_HOME=~/.venvs

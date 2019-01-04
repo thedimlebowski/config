@@ -113,11 +113,14 @@ drun(){
         CPUSET=0-$MAXCPU
     else
 	CPUSET=$3
-    fi     
+    fi
+    if hash nvidia-docker 2>/dev/null; then
+        RUNTIME_OPT=--runtime=nvidia
+    fi
     CMD=$2
     docker pull $1
     NAME=`id -un`_${CMD}_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8`
-    FULLCMD="docker run -it --rm --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --cpuset-cpus $CPUSET --name $NAME $IMAGE $CMD"
+    FULLCMD="docker run -it --rm $RUNTIME_OPT --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --cpuset-cpus $CPUSET --name $NAME $IMAGE $CMD"
     echo $FULLCMD
     $FULLCMD
 }
@@ -125,3 +128,18 @@ drun(){
 export WORKON_HOME=~/.venvs
 mkdir -p $WORKON_HOME
 source /usr/local/bin/virtualenvwrapper.sh
+
+function get_aws_vault_profile() {
+    [ -z $AWS_VAULT ] && return
+    echo -n "aws:$AWS_VAULT "
+}
+
+PS1='$(get_aws_vault_profile)'"$PS1"
+export PS1
+
+alias goaws='aws-vault exec --no-session --assume-role-ttl=12h terraformer@rkr-compute && workon aws'
+
+function workflows() {
+    STATUS=$1
+    argo list | awk '/data-workflow/' | awk -v pat=$STATUS '$0 ~ pat {print $1}' | xargs -L1 argo get
+}

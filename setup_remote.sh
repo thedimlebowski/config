@@ -7,7 +7,6 @@ USERNAME=$1
 HOSTNAME=$2
 PUBKEY=$3
 echo Setting up ${USERNAME}@${HOSTNAME}...
-scp ${PUBKEY} ${USERNAME}@${HOSTNAME}:~/.ssh/authorized_keys
-ssh ${USERNAME}@${HOSTNAME} "chmod 700 ~/.ssh ; chmod 600 ~/.ssh/authorized_keys ; chmod g-w,o-w ~;"
+ssh-copy-id -f -i ${PUBKEY} ${USERNAME}@${HOSTNAME}
 scp .* ${USERNAME}@${HOSTNAME}:~/
 echo Done!

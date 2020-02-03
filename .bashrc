@@ -44,20 +44,11 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    export PS1="\[\033[38;5;9m\][\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;9m\]\d \T\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;9m\]]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\][\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]\u\[$(tput sgr0)\]\[\033[38;5;10m\]@\[$(tput sgr0)\]\[\033[38;5;2m\]\H\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;2m\]]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;11m\][\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;11m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;11m\]]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;7m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
 else
     PS1='\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 # GNU tools from MacPorts, to install run:
@@ -104,42 +95,8 @@ if ! command_exists nproc; then
     alias nproc='sysctl -n hw.ncpu'
 fi
 
-drun(){
-    IMAGE=$1
-    if [ -z "$3" ]
-    then
-	MAXCPU=`nproc`
-	let MAXCPU=MAXCPU-1
-        CPUSET=0-$MAXCPU
-    else
-	CPUSET=$3
-    fi
-    if hash nvidia-docker 2>/dev/null; then
-        RUNTIME_OPT=--runtime=nvidia
-    fi
-    CMD=$2
-    docker pull $1
-    NAME=`id -un`_${CMD}_`cat /dev/urandom | tr -cd 'a-f0-9' | head -c 8`
-    FULLCMD="docker run -it --rm $RUNTIME_OPT --net=host --security-opt seccomp=unconfined -v /nfs:/nfs -v=`pwd`:`pwd` -w=`pwd` --cpuset-cpus $CPUSET --name $NAME $IMAGE $CMD"
-    echo $FULLCMD
-    $FULLCMD
-}
-
 export WORKON_HOME=~/.venvs
 mkdir -p $WORKON_HOME
 source /usr/local/bin/virtualenvwrapper.sh
 
-function get_aws_vault_profile() {
-    [ -z $AWS_VAULT ] && return
-    echo -n "aws:$AWS_VAULT "
-}
-
-PS1='$(get_aws_vault_profile)'"$PS1"
 export PS1
-
-alias goaws='aws-vault exec --no-session --assume-role-ttl=12h terraformer@rkr-compute && workon aws'
-
-function workflows() {
-    STATUS=$1
-    argo list | awk '/data-workflow/' | awk -v pat=$STATUS '$0 ~ pat {print $1}' | xargs -L1 argo get
-}

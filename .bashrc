@@ -48,16 +48,19 @@ alias la='ls -A'
 alias l='ls -CF'
 
 alias tf='tail -f'
-alias gitg='stare git --no-pager graph -n10'
+alias gitg='stare git --no-pager graph'
 
 stare () {
     while true ; do
+      output=$(printf "[%s] Output of %s:\n\n" "$(date)" "$*")
       clear
-      printf "[%s] Output of %s:\n\n" "$(date)" "$*"
+      echo "$output"
       ${SHELL-/bin/sh} -c "$*"
       sleep 1  # genuine Quartz movement
     done
 }
+
+alias stare='stare '
 
 export PATH=/usr/local/bin:$PATH
 

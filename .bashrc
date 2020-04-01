@@ -48,7 +48,6 @@ alias la='ls -A'
 alias l='ls -CF'
 
 alias tf='tail -f'
-alias gitg='stare git --no-pager graph'
 
 stare () {
     while true ; do
@@ -61,6 +60,10 @@ stare () {
 }
 
 alias stare='stare '
+
+gitg () {
+    stare git --no-pager graph "$*"
+}
 
 export PATH=/usr/local/bin:$PATH
 

@@ -1,0 +1,19 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Dimitry
+	email = 
+# Please adapt and uncomment the following lines:
+#	name = Dimitry Foures
+#	email = dimitry.foures@rkrepsilon.com
+[core]
+	excludesfile = /Users/dimitryfoures/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/dimitryfoures/.stCommitMsg
+[alias]
+graph = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all

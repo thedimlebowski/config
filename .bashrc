@@ -47,15 +47,15 @@ alias ll='ls -FGlAhp'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias watch='watch -n0.5 --color '
 alias tf='tail -f'
+alias gitg='stare git --no-pager graph -n10'
 
 stare () {
     while true ; do
       clear
       printf "[%s] Output of %s:\n\n" "$(date)" "$*"
       ${SHELL-/bin/sh} -c "$*"
-      sleep 0.1  # genuine Quartz movement
+      sleep 1  # genuine Quartz movement
     done
 }
 

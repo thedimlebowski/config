@@ -55,7 +55,7 @@ stare () {
       clear
       printf "[%s] Output of %s:\n\n" "$(date)" "$*"
       ${SHELL-/bin/sh} -c "$*"
-      sleep 1  # genuine Quartz movement
+      sleep 0.1  # genuine Quartz movement
     done
 }
 
@@ -75,9 +75,5 @@ command_exists () {
 if ! command_exists nproc; then
     alias nproc='sysctl -n hw.ncpu'
 fi
-
-export WORKON_HOME=~/.venvs
-mkdir -p $WORKON_HOME
-source /usr/local/bin/virtualenvwrapper.sh
 
 export PS1

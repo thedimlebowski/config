@@ -84,4 +84,10 @@ if ! command_exists nproc; then
     alias nproc='sysctl -n hw.ncpu'
 fi
 
+# bash-completion
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+PATH="/opt/homebrew/bin/:$PATH"
+
 export PS1
+
